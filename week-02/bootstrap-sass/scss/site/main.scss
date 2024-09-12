@@ -1,0 +1,10 @@
+$body-color: #ababaa;
+$width: 100px;
+
+body {
+    background-color: $body-color;
+}
+
+img {
+    max-width: $width;
+}
