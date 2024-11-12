@@ -2,13 +2,13 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const passportJwt = require("passport-jwt");
-//const cors = require("cors");
+const cors = require("cors");
 const dataService = require("./data-service");
 const app = express();
 app.use(express.json());
 
 // Set up CORS
-//app.use(cors);
+app.use(cors());
 
 // JSON Web Token Setup
 let ExtractJwt = passportJwt.ExtractJwt;
@@ -56,9 +56,9 @@ app.get("/api/vehicles", passport.authenticate('jwt', { session: false }), (req,
 });
 
 app.post("/api/login", (req, res) => {
-    const { username, password } = req.body;
+    const { userName, password } = req.body;
 
-    if (username === "user" && password === "pass") {
+    if (userName === "user" && password === "pass") {
         let payload = {
             _id: "123",
             userName: "user",
@@ -68,13 +68,13 @@ app.post("/api/login", (req, res) => {
 
         let token = jwt.sign(payload, jwtOptions.secretOrKey);
 
-        res.json({
+        res.status(200).json({
             message: "Login Successful",
             token
         });
     }
     else {
-        res.status(422).json({ "message": msg });
+        res.status(422).json({ message: "Unable to authentiate user." });
     }
 });
 
